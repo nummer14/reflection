@@ -22,5 +22,14 @@ class Demo {
 
 public class Main {
     public static void main(String[] args) {
+        Demo demo = new Demo();
+        Class<?> demoClass = demo.getClass();
+
+        if (demoClass.isAnnotationPresent(CustomInfo.class)) {
+            CustomInfo classInfo = demoClass.getAnnotation(CustomInfo.class);
+            System.out.println("Author: " + classInfo.author());
+            System.out.println("Date: " + classInfo.date());
+            System.out.println("Version: " + classInfo.version());
+        }
     }
 }
