@@ -1,26 +1,26 @@
+import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-import java.util.Arrays;
 
 public class Main {
-    public static void writeFile(String filename, String content) {
-        Path filePath = Paths.get(filename);
+    public static void writeFile(String filename,String content) {
+        FileWriter writer = null;
 
-        try (FileChannel writeChannel = FileChannel.open(filePath, StandardOpenOption.CREATE, StandardOpenOption.WRITE)) {
-            ByteBuffer buffer = ByteBuffer.allocate(1024);
-
-            buffer.put(content.getBytes());
-            System.out.println("Byte Content: " + Arrays.toString(content.getBytes()));
+        try {
+            writer = new FileWriter(filename);
+            writer.write(content);
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (writer != null) writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     public static void main(String[] args) {
-        writeFile("dinner-menu.txt", "오늘의 저녁 메뉴는 뭘까요?");
+        writeFile("lunch-menu.txt","오늘의 점심 메뉴는 무엇인가요?");
+        System.out.println("파일 생성 완료");
     }
 }
