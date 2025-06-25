@@ -2,6 +2,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.lang.reflect.Method;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})
@@ -30,6 +31,20 @@ public class Main {
             System.out.println("Author: " + classInfo.author());
             System.out.println("Date: " + classInfo.date());
             System.out.println("Version: " + classInfo.version());
+        }
+
+        try {
+            Method m = demoClass.getMethod("display");
+
+            if(m.isAnnotationPresent(CustomInfo.class)) {
+                CustomInfo mi = m.getAnnotation(CustomInfo.class);
+
+                System.out.println("Author: " + mi.author());
+                System.out.println("Date: " + mi.date());
+                System.out.println("Version: " + mi.version());
+            }
+        } catch(NoSuchMethodException e) {
+            e.getStackTrace();
         }
     }
 }
